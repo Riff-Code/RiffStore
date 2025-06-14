@@ -1,0 +1,410 @@
+:root {
+  --primary: #6366f1;
+  --secondary: #4f46e5;
+  --bg: #f3f4f6;
+  --text: #1f2937;
+  --card-bg: #ffffff;
+  --shadow: rgba(0, 0, 0, 0.08);
+  --success: #10b981;
+}
+[data-theme="dark"] {
+  --primary: #8b5cf6;
+  --secondary: #7c3aed;
+  --bg: #1e293b;
+  --text: #f1f5f9;
+  --card-bg: #334155;
+  --shadow: rgba(0, 0, 0, 0.3);
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+  transition: all 0.3s ease;
+}
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+}
+nav {
+  background: var(--card-bg);
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 6px var(--shadow);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+.logo {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: var(--primary);
+}
+.menu {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+select,
+input[type="text"] {
+  padding: 10px 14px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: #fff;
+  transition: all 0.3s ease;
+  min-width: 180px;
+}
+[data-theme="dark"] select,
+[data-theme="dark"] input[type="text"] {
+  background: var(--card-bg);
+  border: 1px solid #475569;
+  color: var(--text);
+}
+select:focus,
+input[type="text"]:focus {
+  outline: none;
+  border-color: var(--secondary);
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.3);
+}
+.product-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 30px;
+  padding: 30px 40px;
+  flex: 1;
+}
+.card {
+  background: var(--card-bg);
+  border-radius: 20px;
+  box-shadow: 0 8px 20px var(--shadow);
+  display: flex;
+  flex-direction: column;
+  transform: translateY(0);
+  position: relative; /* Diperlukan untuk posisi absolut share button */
+  overflow: hidden; /* Mencegah share button keluar dari card */
+}
+.card-clickable-area {
+  cursor: pointer;
+}
+.card:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+}
+.card img {
+  width: 100%;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+}
+.card .info {
+  padding: 15px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.card .info h4 {
+  font-size: 1.1rem;
+  color: var(--text);
+}
+.card .info p {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+/* --- SHARE BUTTON STYLE --- */
+.share-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background-color: rgba(0, 0, 0, 0.4);
+  color: white;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  transition: background-color 0.3s, transform 0.3s;
+}
+.share-btn:hover {
+  background-color: rgba(0, 0, 0, 0.7);
+  transform: scale(1.1);
+}
+.share-btn svg {
+  width: 20px;
+  height: 20px;
+}
+.share-btn.success {
+  background-color: var(--success);
+}
+
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 20;
+  padding: 20px;
+  animation: fadeIn 0.4s ease forwards;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.popup-content {
+  display: flex;
+  max-width: 900px;
+  width: 100%;
+  max-height: 90vh;
+  background: var(--card-bg);
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  position: relative;
+  transform: scale(0.9);
+  animation: popScale 0.3s ease forwards;
+  overflow: hidden;
+}
+@keyframes popScale {
+  from {
+    transform: scale(0.9);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+/* --- SLIDER STYLES (UPDATED) --- */
+.image-slider-container {
+  width: 50%;
+  position: relative;
+  background-color: #000;
+  aspect-ratio: 1/1; /* Membuat container menjadi persegi */
+}
+.image-slider {
+  width: 100%;
+  height: 100%;
+}
+.image-slider img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Mengisi container, memotong jika perlu */
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+.image-slider img.active {
+  opacity: 1;
+  display: block;
+}
+.slider-nav {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  transform: translateY(-50%);
+  padding: 0 10px;
+  z-index: 3;
+}
+.slider-nav button {
+  background: rgba(0, 0, 0, 0.4);
+  color: white;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 1.5rem;
+  line-height: 1;
+  transition: background 0.3s;
+}
+.slider-nav button:hover {
+  background: rgba(0, 0, 0, 0.7);
+}
+.slider-dots {
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  z-index: 3;
+}
+.slider-dots .dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.slider-dots .dot.active {
+  background: rgba(255, 255, 255, 1);
+}
+
+.popup .details {
+  padding: 30px;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow-y: auto; /* Agar bisa di-scroll jika kontennya panjang */
+}
+.popup .details h2 {
+  margin-bottom: 12px;
+  color: var(--primary);
+  font-size: 1.8rem;
+}
+.popup .details #popupDesc {
+  white-space: pre-wrap; /* Agar baris baru di deskripsi ditampilkan */
+  max-height: 200px;
+  overflow-y: auto;
+  margin-bottom: 10px;
+}
+.popup .details span {
+  font-size: 1.5rem;
+  color: var(--secondary);
+  margin-top: 10px;
+  font-weight: bold;
+}
+.whatsapp-btn {
+  display: inline-block;
+  background: var(--success);
+  color: white;
+  text-decoration: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  margin-top: 20px;
+  text-align: center;
+  transition: background 0.3s ease;
+  font-weight: 600;
+}
+.whatsapp-btn:hover {
+  background: #059669;
+}
+
+.close-btn-inside {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 2rem;
+  color: var(--text);
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 15;
+}
+.close-btn-inside:hover {
+  background: rgba(255, 255, 255, 1);
+}
+
+footer {
+  background: var(--card-bg);
+  text-align: center;
+  padding: 20px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  border-top: 1px solid #e5e7eb;
+}
+footer p {
+  color: #6b7280;
+}
+footer a img {
+  width: 28px;
+  height: 28px;
+  transition: transform 0.3s ease;
+}
+footer a img:hover {
+  transform: scale(1.2);
+}
+
+/* --- RESPONSIVE STYLES --- */
+@media (max-width: 768px) {
+  nav {
+    justify-content: center;
+  }
+  .menu {
+    width: 100%;
+    justify-content: center;
+  }
+  .popup-content {
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+  }
+  .image-slider-container,
+  .popup .details {
+    width: 100%;
+  }
+  .popup .details {
+    padding: 20px;
+    max-height: 50vh;
+  }
+}
+@media (max-width: 480px) {
+  nav {
+    padding: 15px 20px;
+  }
+  .logo {
+    font-size: 1.5rem;
+  }
+  .menu select,
+  .menu input {
+    width: 100%;
+  }
+  .product-container {
+    padding: 20px;
+    gap: 20px;
+  }
+  .popup .details h2 {
+    font-size: 1.5rem;
+  }
+  .popup .details span {
+    font-size: 1.3rem;
+  }
+}
+
+.theme-toggle {
+  cursor: pointer;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  transition: background 0.3s ease;
+}
+.theme-toggle:hover {
+  background: var(--secondary);
+}
