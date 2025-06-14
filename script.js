@@ -22,7 +22,7 @@ Kelengkapan:
       "assets/3kameraInsta360X4.jpeg",
       "assets/kameraInsta360X4.jpeg",
     ],
-    whatsappNumber: "6289516294021",
+    whatsappNumber: "6289528830675",
   },
 ];
 
